@@ -14,4 +14,4 @@ for i,event in enumerate(events):
   if i%100 == 0:
     print "processed ",i+1," events"
 ##############
-muonPtHist.SaveAs(muonPtHist.GetName()+'.root')
+muonsPtHist.SaveAs(muonsPtHist.GetName()+'.root')
