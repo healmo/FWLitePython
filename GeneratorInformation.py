@@ -42,6 +42,7 @@ for i,event in enumerate(events):
       alljets += 1
       for part in particles:
         if part.status() == 3:
+          print part.pdgId()
           if math.fabs(part.pdgId()) <= 5:
             if math.fabs(part.pdgId()) == 5 and math.fabs(part.mother().pdgId()) == 6:
               benergy = part.energy()
@@ -63,7 +64,10 @@ for i,event in enumerate(events):
               totalmass2 = totalmass2 + tMass
     else:
       print 'EvenNumber',i,'withqjets=',numberqjets
-
+ 
+  if i == 1:
+    break
+  
   if i%100 == 0:
     print "processed ",i," events"
 
