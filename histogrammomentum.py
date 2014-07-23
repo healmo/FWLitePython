@@ -1,0 +1,161 @@
+import ROOT,math,sys
+from DataFormats.FWLite import Events,Handle
+from ROOT import TLorentzVector
+
+
+#------------------------Jets-Momentum-Before---------------------------------------------------
+fileData = ROOT.TFile("jetsmomentumtriggeredbeforeDataHist_mc.root")
+filettMC = ROOT.TFile("jetsmomentumtriggeredbeforeTTHist_mc.root")
+c2 = ROOT.TCanvas("c2","Jets Momentum",200,10,700,500)
+datamomentum = fileData.Get("jetsmomentumtriggeredbeforeDataHist")
+mcmomentum = filettMC.Get("jetsmomentumtriggeredbeforeTTHist")
+
+mcmomentum.Scale(2)
+
+mcmomentum.SetLineColor(ROOT.kGreen)
+mcmomentum.SetFillColor(ROOT.kGreen)
+mcmomentum.SetFillStyle(3004)
+datamomentum.SetLineColor(ROOT.kBlue)
+datamomentum.SetFillColor(ROOT.kBlue)
+datamomentum.SetFillStyle(3005)
+datamomentum.Draw()
+mcmomentum .Draw("sames")
+leyMuons = ROOT.TLegend(0.4,0.6,0.89,0.89)
+leyMuons.SetFillColor(ROOT.kWhite)
+leyMuons.AddEntry(mcmomentum,"Pt TTMC Jets Before jet cut","f")
+leyMuons.AddEntry(datamomentum,"Pt Data Jets Before jet cut","f")
+leyMuons.Draw()
+c2.SaveAs("jetsmomentumtriggeredbefore_Data_vs_TTMC.root")
+c2.cd()
+
+
+#------------------------Jets-Momentum-After---------------------------------------------------
+fileData = ROOT.TFile("jetsmomentumtriggeredafterDataHist_mc.root")
+filettMC = ROOT.TFile("jetsmomentumtriggeredafterTTHist_mc.root")
+c3 = ROOT.TCanvas("c3","Jets Momentum",200,10,700,500)
+datamomentum = fileData.Get("jetsmomentumtriggeredafterDataHist")
+mcmomentum = filettMC.Get("jetsmomentumtriggeredafterTTHist")
+
+mcmomentum.Scale(2)
+
+mcmomentum.SetLineColor(ROOT.kGreen)
+mcmomentum.SetFillColor(ROOT.kGreen)
+mcmomentum.SetFillStyle(3004)
+datamomentum.SetLineColor(ROOT.kBlue)
+datamomentum.SetFillColor(ROOT.kBlue)
+datamomentum.SetFillStyle(3005)
+datamomentum.Draw()
+mcmomentum .Draw("sames")
+leyMuons = ROOT.TLegend(0.4,0.6,0.89,0.89)
+leyMuons.SetFillColor(ROOT.kWhite)
+leyMuons.AddEntry(mcmomentum,"Pt TTMC Jets After jet cut","f")
+leyMuons.AddEntry(datamomentum,"Pt Data Jets After jet cut","f")
+leyMuons.Draw()
+c3.SaveAs("jetsmomentumtriggeredafter_Data_vs_TTMC.root")
+c3.cd()
+
+#------------------------Number-Jets-Event-----------------------------------------------------
+fileData = ROOT.TFile("numberjetsBeforeDataHist_mc.root")
+filettMC = ROOT.TFile("numberjetsBeforeTTHist_mc.root")
+c4 = ROOT.TCanvas("c4","Jets Momentum",200,10,700,500)
+datamomentum = fileData.Get("numberjetsBeforeDataHist")
+mcmomentum = filettMC.Get("numberjetsBeforeTTHist")
+
+#datamomentum.Scale(1/465736)
+#mcmomentum.Scale(1/15201)
+
+mcmomentum.SetLineColor(ROOT.kRed)
+mcmomentum.SetFillColor(ROOT.kRed)
+mcmomentum.SetFillStyle(3004)
+datamomentum.SetLineColor(ROOT.kOrange)
+datamomentum.SetFillColor(ROOT.kOrange)
+datamomentum.SetFillStyle(3005)
+datamomentum.Draw()
+mcmomentum .Draw("sames")
+leyMuons = ROOT.TLegend(0.4,0.6,0.89,0.89)
+leyMuons.SetFillColor(ROOT.kWhite)
+leyMuons.AddEntry(mcmomentum,"Number Jets TTMC","f")
+leyMuons.AddEntry(datamomentum,"Number Jets Data","f")
+leyMuons.Draw()
+c4.SaveAs("numberjets_Data_vs_TTMC.root")
+c4.cd()
+
+#------------------------Cut-Process-----------------------------------------------------
+fileData = ROOT.TFile("cutprocessDataHist.root")
+filettdilepMC = ROOT.TFile("cutprocessTTHistdilep.root")
+filettsemilepMC = ROOT.TFile("cutprocessTTHistsemilep.root")
+filettttMC = ROOT.TFile("cutprocessTTTTHist.root")
+c5 = ROOT.TCanvas("c5","Cut Process",200,10,700,500)
+datacutprocess = fileData.Get("cutprocessDataHist")
+ttdilepcutprocess = filettdilepMC.Get("cutprocessTTHistdilep")
+ttsemilepcutprocess = filettsemilepMC.Get("cutprocessTTHistsemilep")
+ttcutprocess = filettdilepMC.Clone("cutprocessTTHist")
+ttcutprocess.Add(ttsemilepcutprocess)
+ttttcutprocess = filettttMC.Get("cutprocessTTTTHist")
+
+ttcutprocess.Scale(0.7912)
+
+datacutprocess.SetLineColor(ROOT.kRed)
+ttcutprocess.SetLineColor(ROOT.kGreen)
+ttttcutprocess.SetLineColor(ROOT.kBlue)
+
+
+datacutprocess.Draw()
+ttcutprocess.Draw("sames")
+#ttttcutprocess.Draw("sames")
+
+leyMuons = ROOT.TLegend(0.4,0.6,0.89,0.89)
+leyMuons.SetFillColor(ROOT.kWhite)
+leyMuons.AddEntry(datacutprocess,"Data","f")
+leyMuons.AddEntry(ttcutprocess,"t#bar{t}","f")
+#leyMuons.AddEntry(ttttcutprocess,"Cut process in TTTTMCSample","f")
+leyMuons.Draw()
+c5.SaveAs("cutprocess_Data_vs_MCSamples.root")
+c5.cd()
+
+#------------------------W-Mass-----------------------------------------------------
+fileData = ROOT.TFile("wmassdistributionDataHist.root")
+filettMC = ROOT.TFile("wmassdistributionTTHist.root")
+c6 = ROOT.TCanvas("c6","W mass distribution",200,10,700,500)
+datamomentum = fileData.Get("wmassdistributionDataHist")
+mcmomentum = filettMC.Get("wmassdistributionTTHist")
+
+
+mcmomentum.SetLineColor(ROOT.kRed)
+mcmomentum.SetFillColor(ROOT.kRed)
+mcmomentum.SetFillStyle(3001)
+datamomentum.SetLineColor(ROOT.kOrange)
+datamomentum.SetFillColor(ROOT.kOrange)
+datamomentum.SetFillStyle(3001)
+datamomentum.Draw()
+mcmomentum .Draw("sames")
+leyMuons = ROOT.TLegend(0.4,0.6,0.89,0.89)
+leyMuons.SetFillColor(ROOT.kWhite)
+leyMuons.AddEntry(mcmomentum,"W mass - TTMC","f")
+leyMuons.AddEntry(datamomentum,"W mass - Data","f")
+leyMuons.Draw()
+c6.SaveAs("wmassdistribution_Data_vs_TTMC.root")
+c6.cd()
+
+#------------------------Top-Mass-----------------------------------------------------
+fileData = ROOT.TFile("topmassdistributionDataHist.root")
+filettMC = ROOT.TFile("topmassdistributionTTHist.root")
+c7 = ROOT.TCanvas("c7","Top mass distribution",200,10,700,500)
+datamomentum = fileData.Get("topmassdistributionDataHist")
+mcmomentum = filettMC.Get("topmassdistributionTTHist")
+
+mcmomentum.SetLineColor(ROOT.kRed)
+mcmomentum.SetFillColor(ROOT.kRed)
+mcmomentum.SetFillStyle(3001)
+datamomentum.SetLineColor(ROOT.kOrange)
+datamomentum.SetFillColor(ROOT.kOrange)
+datamomentum.SetFillStyle(3001)
+datamomentum.Draw()
+mcmomentum .Draw("sames")
+leyMuons = ROOT.TLegend(0.4,0.6,0.89,0.89)
+leyMuons.SetFillColor(ROOT.kWhite)
+leyMuons.AddEntry(mcmomentum,"Top mass - TTMC","f")
+leyMuons.AddEntry(datamomentum,"Top mass - Data","f")
+leyMuons.Draw()
+c7.SaveAs("topmassdistribution_Data_vs_TTMC.root")
+c7.cd()

@@ -2,6 +2,7 @@ import ROOT,math
 from DataFormats.FWLite import Events,Handle
 particlesLabel  = "genParticles"
 particlesHandle = Handle("vector<reco::GenParticle>")
+branchingratioHist = ROOT.TH1D("branchingratioHist","Branching Ratio Wdecay",5,0,5)
 events = Events('/user/Samples/TTTTJetsMC/7083D246-AA0A-E211-ADA5-001E67397F26.root')
 totalmassvalues = 0
 totalmass = 0
@@ -32,17 +33,21 @@ for i,event in enumerate(events):
     totalevents += 1
     if numberqjets == 0:
       leptonic += 1
+      branchingratioHist.Fill(0)
     elif numberqjets == 2:
       trileptonic += 1
+      branchingratioHist.Fill(2) 
     elif numberqjets == 4:
       dileptonic += 1
+      branchingratioHist.Fill(1)
     elif numberqjets == 6:
       lepton += 1
+      branchingratioHist.Fill(3)
     elif numberqjets == 8:
       alljets += 1
+      branchingratioHist.Fill(4)
       for part in particles:
         if part.status() == 3:
-          print part.pdgId()
           if math.fabs(part.pdgId()) <= 5:
             if math.fabs(part.pdgId()) == 5 and math.fabs(part.mother().pdgId()) == 6:
               benergy = part.energy()
@@ -65,11 +70,12 @@ for i,event in enumerate(events):
     else:
       print 'EvenNumber',i,'withqjets=',numberqjets
  
-  if i == 1:
-    break
   
   if i%100 == 0:
     print "processed ",i," events"
+
+scale = 1/branchingratioHist.Integral()
+branchingratioHist.Scale(scale)
 
 leptonic = leptonic*100/totalevents
 trileptonic = trileptonic*100/totalevents
@@ -89,5 +95,4 @@ print '   TopMassMeanValue2=',meanvalue2
 #############
 
 
-
-
+branchingratioHist.SaveAs(branchingratioHist.GetName()+'_mc.root')
